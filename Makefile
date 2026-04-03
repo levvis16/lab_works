@@ -1,7 +1,11 @@
-all: program
+CXX = g++
+CXXFLAGS = -Wall -std=c++11
+TARGET = program
 
-program: main.c smartarray.c
-	gcc -o program main.c smartarray.c
+all: $(TARGET)
+
+$(TARGET): main.cpp smartarray.cpp
+	$(CXX) $(CXXFLAGS) -o $(TARGET) main.cpp smartarray.cpp
 
 clean:
-	rm -f program
+	rm -f $(TARGET)

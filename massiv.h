@@ -1,33 +1,41 @@
-#ifndef MASSIV_H  
-#define MASSIV_H  
+#ifndef MASSIV_H
+#define MASSIV_H
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include <iostream>
+#include <fstream>
+#include <string>
 
-typedef struct Node {
+struct Product {
     int id;
-    char nazvanie[50];
+    std::string nazvanie;
     float cena;
     int kolichestvo;
-    struct Node *next;
-} Node;
+    
+    friend std::ostream& operator<<(std::ostream& os, const Product& p);
+    friend std::istream& operator>>(std::istream& is, Product& p);
+};
 
-typedef struct spisok {
+class Spisok {
+private:
+    Product* data;
     int size;
-    Node *head;
-    Node *tail;
-} spisok;
+    int capacity;
+    
+    void resize();
 
-void spisok_init(spisok *s);
-void spisok_append(spisok *s, int id, char nazvanie[], float cena, int kolichestvo);
-int spisok_pop(spisok *s, int id);        
-void spisok_print(spisok *s);
-Node* spisok_poisk_id(spisok *s, int id);
-Node* spisok_poisk_nazvanie(spisok *s, char nazvanie[]);
-void spisok_redaktirovat(spisok *s, int id);
-int spisok_zapisat_v_fail(spisok *s, char filename[]);
-int spisok_zagruzit_iz_faila(spisok *s, char filename[]);
-void spisok_ochistit(spisok *s);
+public:
+    Spisok();
+    ~Spisok();
+    
+    void append(int id, const std::string& nazvanie, float cena, int kolichestvo);
+    bool pop(int id);
+    void print() const;
+    Product* poisk_id(int id) const;
+    Product* poisk_nazvanie(const std::string& nazvanie) const;
+    void redaktirovat(int id);
+    bool zapisat_v_fail(const std::string& filename) const;
+    bool zagruzit_iz_faila(const std::string& filename);
+    void ochistit();
+};
 
 #endif
