@@ -4,6 +4,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <stdexcept>  // Для исключений
 
 struct Product {
     int id;
@@ -30,8 +31,11 @@ public:
     void append(int id, const std::string& nazvanie, float cena, int kolichestvo);
     bool pop(int id);
     void print() const;
-    Product* poisk_id(int id) const;
-    Product* poisk_nazvanie(const std::string& nazvanie) const;
+    
+    // Изменяем возвращаемый тип на константную ссылку
+    const Product& poisk_id(int id) const;
+    const Product& poisk_nazvanie(const std::string& nazvanie) const;
+    
     void redaktirovat(int id);
     bool zapisat_v_fail(const std::string& filename) const;
     bool zagruzit_iz_faila(const std::string& filename);

@@ -76,59 +76,53 @@ void Spisok::print() const {
     }
 }
 
-Product* Spisok::poisk_id(int id) const {
+const Product& Spisok::poisk_id(int id) const {
     for (int i = 0; i < size; i++) {
         if (data[i].id == id) {
-            std::cout << "Товар найден:\n";
-            std::cout << "ID: " << data[i].id 
-                      << ", Название: " << data[i].nazvanie
-                      << ", Цена: " << data[i].cena 
-                      << ", Количество: " << data[i].kolichestvo << "\n";
-            return &data[i];
+            return data[i];
         }
     }
-    std::cout << "Товар с ID " << id << " не найден\n";
-    return nullptr;
+    throw std::runtime_error("Товар с ID " + std::to_string(id) + " не найден");
 }
 
-Product* Spisok::poisk_nazvanie(const std::string& nazvanie) const {
-    bool found = false;
+const Product& Spisok::poisk_nazvanie(const std::string& nazvanie) const {
     for (int i = 0; i < size; i++) {
         if (data[i].nazvanie.find(nazvanie) != std::string::npos) {
-            std::cout << "ID: " << data[i].id 
-                      << ", Название: " << data[i].nazvanie
-                      << ", Цена: " << data[i].cena 
-                      << ", Количество: " << data[i].kolichestvo << "\n";
-            found = true;
+            return data[i];
         }
     }
-    if (!found) {
-        std::cout << "Товары с названием '" << nazvanie << "' не найдены\n";
-        return nullptr;
-    }
-    return nullptr;
+    throw std::runtime_error("Товар с названием '" + nazvanie + "' не найден");
 }
 
 void Spisok::redaktirovat(int id) {
-    Product* p = poisk_id(id);
-    if (p == nullptr) return;
-    
-    std::string new_nazvanie;
-    float new_cena;
-    int new_kolichestvo;
-    
-    std::cout << "Новое название [" << p->nazvanie << "]: ";
-    std::cin >> new_nazvanie;
-    std::cout << "Новая цена [" << p->cena << "]: ";
-    std::cin >> new_cena;
-    std::cout << "Новое количество [" << p->kolichestvo << "]: ";
-    std::cin >> new_kolichestvo;
-    
-    p->nazvanie = new_nazvanie;
-    p->cena = new_cena;
-    p->kolichestvo = new_kolichestvo;
-    
-    std::cout << "Товар отредактирован!\n";
+    for (int i = 0; i < size; i++) {
+        if (data[i].id == id) {
+            std::string new_nazvanie;
+            float new_cena;
+            int new_kolichestvo;
+            
+            std::cout << "Текущие данные:\n";
+            std::cout << "ID: " << data[i].id 
+                      << ", Название: " << data[i].nazvanie
+                      << ", Цена: " << data[i].cena 
+                      << ", Количество: " << data[i].kolichestvo << "\n";
+            
+            std::cout << "Новое название [" << data[i].nazvanie << "]: ";
+            std::cin >> new_nazvanie;
+            std::cout << "Новая цена [" << data[i].cena << "]: ";
+            std::cin >> new_cena;
+            std::cout << "Новое количество [" << data[i].kolichestvo << "]: ";
+            std::cin >> new_kolichestvo;
+            
+            data[i].nazvanie = new_nazvanie;
+            data[i].cena = new_cena;
+            data[i].kolichestvo = new_kolichestvo;
+            
+            std::cout << "Товар отредактирован!\n";
+            return;
+        }
+    }
+    std::cout << "Товар с ID " << id << " не найден\n";
 }
 
 bool Spisok::zapisat_v_fail(const std::string& filename) const {
