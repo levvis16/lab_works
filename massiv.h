@@ -4,7 +4,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <stdexcept>  // Для исключений
+#include <stdexcept>  
 
 struct Product {
     int id;
@@ -32,7 +32,6 @@ public:
     bool pop(int id);
     void print() const;
     
-    // Изменяем возвращаемый тип на константную ссылку
     const Product& poisk_id(int id) const;
     const Product& poisk_nazvanie(const std::string& nazvanie) const;
     
