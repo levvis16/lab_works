@@ -1,6 +1,7 @@
 #include "massiv.h"
 #include <iostream>
 #include <string>
+#include <limits>
 
 int main(int argc, char* argv[]) {
     std::string filename;
@@ -9,11 +10,12 @@ int main(int argc, char* argv[]) {
         filename = argv[1];
         std::cout << "Загружаем базу из файла: " << filename << "\n";
     } else {
-        std::cout << "Введите имя файла базы данных (по умолчанию db.txt): ";
+        std::cout << "Введите имя файла базы данных (или нажмите Enter для db.txt): ";
         std::getline(std::cin, filename);
         if (filename.empty()) {
             filename = "db.txt";
         }
+        std::cout << "Используем файл: " << filename << "\n";
     }
     
     Spisok s;
